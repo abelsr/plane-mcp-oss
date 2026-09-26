@@ -109,23 +109,172 @@ PLANE_API_KEY=... PLANE_WORKSPACE_SLUG=my-team uv run plane-mcp --transport http
 
 `python -m plane_mcp` and `python main.py` are equivalent entry points.
 
-### Add to your MCP client
+## Client setup
+
+Every example below runs the published package with `uvx plane-mcp-oss`, so
+nothing needs to be installed first. For a **self-hosted** instance, add
+`PLANE_BASE_URL` to the same environment (`https://plane.example.com`).
+
+### Claude Code
+
+```bash
+claude mcp add plane \
+  -e PLANE_API_KEY=plane_api_xxxxxxxx \
+  -e PLANE_WORKSPACE_SLUG=my-team \
+  -- uvx plane-mcp-oss
+
+# add --scope user to make it available in every project (default is "local")
+claude mcp list
+```
+
+Or commit a project-scoped `.mcp.json` so the whole team gets it:
 
 ```json
 {
   "mcpServers": {
     "plane": {
-      "command": "uv",
-      "args": ["--directory", "/path/to/plane-mcp-oss", "run", "plane-mcp"],
+      "command": "uvx",
+      "args": ["plane-mcp-oss"],
       "env": {
-        "PLANE_API_KEY": "<your-token>",
-        "PLANE_WORKSPACE_SLUG": "<your-workspace-slug>",
-        "PLANE_BASE_URL": "https://api.plane.so"
+        "PLANE_API_KEY": "plane_api_xxxxxxxx",
+        "PLANE_WORKSPACE_SLUG": "my-team"
       }
     }
   }
 }
 ```
+
+### OpenAI Codex
+
+```bash
+codex mcp add plane \
+  --env PLANE_API_KEY=plane_api_xxxxxxxx \
+  --env PLANE_WORKSPACE_SLUG=my-team \
+  -- uvx plane-mcp-oss
+
+codex mcp list
+```
+
+Codex writes this to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.plane]
+command = "uvx"
+args = ["plane-mcp-oss"]
+
+[mcp_servers.plane.env]
+PLANE_API_KEY = "plane_api_xxxxxxxx"
+PLANE_WORKSPACE_SLUG = "my-team"
+```
+
+### phoson-cli
+
+Add an entry to `~/.phoson/mcps.json` under `mcpServers`:
+
+```json
+{
+  "mcpServers": {
+    "plane": {
+      "command": "uvx",
+      "args": ["plane-mcp-oss"],
+      "env": {
+        "PLANE_API_KEY": "plane_api_xxxxxxxx",
+        "PLANE_WORKSPACE_SLUG": "my-team"
+      },
+      "enabled": true
+    }
+  }
+}
+```
+
+### Cursor
+
+`~/.cursor/mcp.json` (global) or `.cursor/mcp.json` (per project):
+
+```json
+{
+  "mcpServers": {
+    "plane": {
+      "command": "uvx",
+      "args": ["plane-mcp-oss"],
+      "env": {
+        "PLANE_API_KEY": "plane_api_xxxxxxxx",
+        "PLANE_WORKSPACE_SLUG": "my-team"
+      }
+    }
+  }
+}
+```
+
+### VS Code
+
+`.vscode/mcp.json` (note the `servers` key and `type`):
+
+```json
+{
+  "servers": {
+    "plane": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["plane-mcp-oss"],
+      "env": {
+        "PLANE_API_KEY": "plane_api_xxxxxxxx",
+        "PLANE_WORKSPACE_SLUG": "my-team"
+      }
+    }
+  }
+}
+```
+
+VS Code can prompt for the token instead of storing it — add an `inputs` entry
+and reference it as `${input:plane_api_key}`.
+
+### Claude Desktop
+
+`claude_desktop_config.json` (Settings → Developer → Edit Config):
+
+```json
+{
+  "mcpServers": {
+    "plane": {
+      "command": "uvx",
+      "args": ["plane-mcp-oss"],
+      "env": {
+        "PLANE_API_KEY": "plane_api_xxxxxxxx",
+        "PLANE_WORKSPACE_SLUG": "my-team"
+      }
+    }
+  }
+}
+```
+
+### Remote / HTTP transport
+
+Any client that supports remote MCP servers can connect over HTTP instead of
+spawning a process:
+
+```bash
+PLANE_API_KEY=... PLANE_WORKSPACE_SLUG=my-team plane-mcp-oss --transport http --port 8000
+# endpoint: http://127.0.0.1:8000/mcp
+```
+
+Clients without native remote support can bridge to it with `mcp-remote`:
+
+```json
+{
+  "mcpServers": {
+    "plane": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "http://127.0.0.1:8000/mcp"]
+    }
+  }
+}
+```
+
+> Keep tokens out of version control: prefer the client's secret input
+> mechanism, or reference an environment variable your client expands, instead
+> of committing a real key to `.mcp.json`.
+
 
 ## Tools
 
