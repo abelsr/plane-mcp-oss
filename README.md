@@ -369,8 +369,9 @@ async def list_pages(project_id: str) -> dict[str, Any]:
 ## Contributing
 
 Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for the
-development setup, how to add a tool, and commit/PR guidelines. This project
-follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md).
+development setup, how to add a tool, and commit/PR guidelines. Maintainers
+release via [RELEASING.md](RELEASING.md). This project follows the
+[Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Security
 

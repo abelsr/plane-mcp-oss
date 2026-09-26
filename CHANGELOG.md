@@ -6,6 +6,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- `RELEASING.md` documenting the release checklist, versioning rules,
+  verification steps, re-running a failed upload, yanking, and the PyPI
+  trusted-publishing setup.
+
 ## [0.1.1] - 2026-09-25
 
 ### Changed

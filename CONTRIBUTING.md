@@ -103,6 +103,13 @@ and unit-testable. Keep API concerns there and tool wiring in `server.py`.
 - Ensure `uv run pytest` passes and CI is green.
 - Describe **what** and **why** in the PR; reference the Plane endpoint you used.
 
+## Releasing
+
+Maintainers: see [RELEASING.md](RELEASING.md) for the release checklist,
+versioning rules, verification steps, and the PyPI trusted-publishing setup.
+Releases are cut by publishing a GitHub Release, which uploads to PyPI
+automatically.
+
 ## License
 
 By contributing, you agree that your contributions are licensed under the
