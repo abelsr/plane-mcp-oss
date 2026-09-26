@@ -19,7 +19,7 @@ By participating you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
 Requirements: Python 3.10+ and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-git clone https://github.com/abelsr/plane-mcp.git
+git clone https://github.com/abelsr/plane-mcp-oss.git
 cd plane-mcp
 uv sync --extra dev
 ```

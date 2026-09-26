@@ -27,11 +27,11 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/abelsr/plane-mcp"
-Repository = "https://github.com/abelsr/plane-mcp"
-Issues = "https://github.com/abelsr/plane-mcp/issues"
-Changelog = "https://github.com/abelsr/plane-mcp/blob/main/CHANGELOG.md"
-Security = "https://github.com/abelsr/plane-mcp/security/policy"
+Homepage = "https://github.com/abelsr/plane-mcp-oss"
+Repository = "https://github.com/abelsr/plane-mcp-oss"
+Issues = "https://github.com/abelsr/plane-mcp-oss/issues"
+Changelog = "https://github.com/abelsr/plane-mcp-oss/blob/main/CHANGELOG.md"
+Security = "https://github.com/abelsr/plane-mcp-oss/security/policy"
 
 [project.scripts]
 plane-mcp = "plane_mcp.server:main"

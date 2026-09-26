@@ -1,10 +1,10 @@
 blank_issues_enabled: false
 contact_links:
   - name: Question or usage help
-    url: https://github.com/abelsr/plane-mcp/discussions
+    url: https://github.com/abelsr/plane-mcp-oss/discussions
     about: Ask how to configure or use the server.
   - name: Security report
-    url: https://github.com/abelsr/plane-mcp/security/advisories/new
+    url: https://github.com/abelsr/plane-mcp-oss/security/advisories/new
     about: Please report vulnerabilities privately, not as a public issue.
   - name: Plane API reference
     url: https://developers.plane.so/api-reference/introduction

@@ -9,7 +9,7 @@ The latest release on the `main` branch is supported. Fixes are applied there.
 Please **do not open a public issue** for security problems.
 
 Report privately using GitHub's
-[Report a vulnerability](https://github.com/abelsr/plane-mcp/security/advisories/new)
+[Report a vulnerability](https://github.com/abelsr/plane-mcp-oss/security/advisories/new)
 form, or email **abelsantillanrdz@gmail.com** with:
 
 - a description of the issue and its impact,
