@@ -6,6 +6,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-09-25
+
 ### Changed
 
 - Document every tool parameter in the JSON schema. FastMCP lifts a tool's
@@ -41,5 +43,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   there.
 - `advanced_search_work_items` may return 403 depending on workspace permissions.
 
-[Unreleased]: https://github.com/abelsr/plane-mcp-oss/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/abelsr/plane-mcp-oss/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/abelsr/plane-mcp-oss/releases/tag/v0.1.1
 [0.1.0]: https://github.com/abelsr/plane-mcp-oss/releases/tag/v0.1.0

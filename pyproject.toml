@@ -1,6 +1,6 @@
 [project]
 name = "plane-mcp-oss"
-version = "0.1.0"
+version = "0.1.1"
 description = "MCP server that exposes the Plane project management API to AI clients, built with FastMCP."
 readme = "README.md"
 requires-python = ">=3.10"
