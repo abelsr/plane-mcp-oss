@@ -1,0 +1,48 @@
+name: Publish to PyPI
+
+# Publishes the built distribution to PyPI using Trusted Publishing (OIDC):
+# no API token is stored in the repository.
+#
+# One-time setup on PyPI (Account -> Publishing -> Add a pending publisher):
+#   PyPI project name : plane-mcp
+#   Owner             : abelsr
+#   Repository name   : plane-mcp-oss
+#   Workflow name     : publish.yml
+#   Environment name  : pypi
+#
+# After that, publishing a GitHub Release triggers this workflow. It can also
+# be run manually from the Actions tab.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/plane-mcp
+    permissions:
+      id-token: write # required for Trusted Publishing
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.2.0
+
+      - name: Run tests
+        run: |
+          uv sync --extra dev
+          uv run pytest -q
+
+      - name: Build sdist and wheel
+        run: uv build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
