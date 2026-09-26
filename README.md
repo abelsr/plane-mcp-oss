@@ -1,6 +1,7 @@
 # Plane MCP Server
 
 [![CI](https://github.com/abelsr/plane-mcp-oss/actions/workflows/ci.yml/badge.svg)](https://github.com/abelsr/plane-mcp-oss/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/plane-mcp-oss.svg)](https://pypi.org/project/plane-mcp-oss/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
 [![Built with FastMCP](https://img.shields.io/badge/built%20with-FastMCP-blueviolet.svg)](https://gofastmcp.com)
