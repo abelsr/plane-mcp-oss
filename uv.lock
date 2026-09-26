@@ -898,7 +898,7 @@ wheels = [
 ]
 
 [[package]]
-name = "plane-mcp"
+name = "plane-mcp-oss"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

@@ -1,5 +1,5 @@
 [project]
-name = "plane-mcp"
+name = "plane-mcp-oss"
 version = "0.1.0"
 description = "MCP server that exposes the Plane project management API to AI clients, built with FastMCP."
 readme = "README.md"
@@ -35,6 +35,7 @@ Security = "https://github.com/abelsr/plane-mcp-oss/security/policy"
 
 [project.scripts]
 plane-mcp = "plane_mcp.server:main"
+plane-mcp-oss = "plane_mcp.server:main"
 
 [project.optional-dependencies]
 dev = [

@@ -24,6 +24,16 @@ states, labels, cycles, modules, members and comments.
 
 ## Install
 
+From PyPI — package `plane-mcp-oss`:
+
+```bash
+uvx plane-mcp-oss            # run without installing
+# or
+pip install plane-mcp-oss    # installs the `plane-mcp` and `plane-mcp-oss` commands
+```
+
+From source:
+
 ```bash
 uv sync            # installs fastmcp + httpx into .venv
 # or, without uv:
@@ -105,7 +115,7 @@ PLANE_API_KEY=... PLANE_WORKSPACE_SLUG=my-team uv run plane-mcp --transport http
   "mcpServers": {
     "plane": {
       "command": "uv",
-      "args": ["--directory", "/path/to/plane-docmost-oss", "run", "plane-mcp"],
+      "args": ["--directory", "/path/to/plane-mcp-oss", "run", "plane-mcp"],
       "env": {
         "PLANE_API_KEY": "<your-token>",
         "PLANE_WORKSPACE_SLUG": "<your-workspace-slug>",

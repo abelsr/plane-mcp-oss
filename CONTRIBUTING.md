@@ -20,7 +20,7 @@ Requirements: Python 3.10+ and [uv](https://docs.astral.sh/uv/).
 
 ```bash
 git clone https://github.com/abelsr/plane-mcp-oss.git
-cd plane-mcp
+cd plane-mcp-oss
 uv sync --extra dev
 ```
 
