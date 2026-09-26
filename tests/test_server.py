@@ -146,6 +146,43 @@ def test_access_code_mapping():
         _access_code("secret")
 
 
+# ------------------------------------------------------- description quality
+
+
+async def test_every_tool_has_a_description():
+    async with Client(mcp) as client:
+        tools = await client.list_tools()
+    undocumented = [t.name for t in tools if not (t.description or "").strip()]
+    assert not undocumented, f"tools without a description: {undocumented}"
+
+
+async def test_every_tool_parameter_is_documented():
+    """LLMs pick arguments from the JSON schema, so each one needs a description.
+
+    FastMCP lifts the docstring's `Args:` block into the schema; a parameter
+    missing from that block reaches the model as a bare name.
+    """
+    async with Client(mcp) as client:
+        tools = await client.list_tools()
+
+    undocumented: list[str] = []
+    for tool in tools:
+        schema = tool.input_schema if hasattr(tool, "input_schema") else tool.inputSchema
+        for name, spec in schema.get("properties", {}).items():
+            if not spec.get("description"):
+                undocumented.append(f"{tool.name}.{name}")
+
+    assert not undocumented, f"parameters without a description: {undocumented}"
+
+
+async def test_destructive_tools_warn_they_are_irreversible():
+    async with Client(mcp) as client:
+        tools = {t.name: (t.description or "") for t in await client.list_tools()}
+
+    for name in ("delete_work_item", "delete_comment", "delete_page"):
+        assert "cannot be undone" in tools[name].lower(), f"{name} should warn about permanence"
+
+
 async def test_create_page_requires_a_body():
     async with Client(mcp) as client:
         with pytest.raises(ToolError, match="description"):

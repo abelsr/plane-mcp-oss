@@ -6,6 +6,15 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- Document every tool parameter in the JSON schema. FastMCP lifts a tool's
+  `Args:` block into per-parameter descriptions, so tools whose arguments were
+  only listed in the signature (notably `update_work_item`) exposed bare names
+  to the model. Added "cannot be undone" warnings and cross-references
+  (`list_states`, `list_labels`, `list_workspace_members`) where relevant.
+- Added regression tests asserting every tool and every parameter is described.
+
 ## [0.1.0] - 2026-09-25
 
 ### Added

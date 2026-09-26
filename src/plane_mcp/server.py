@@ -130,7 +130,11 @@ async def list_projects(
 
 @mcp.tool
 async def get_project(project_id: str) -> dict[str, Any]:
-    """Fetch a single project by its UUID."""
+    """Fetch a single project by its UUID.
+
+    Args:
+        project_id: Project UUID (from `list_projects`).
+    """
     client = get_client()
     return await _call(client.get_project(project_id))
 
@@ -176,7 +180,16 @@ async def update_project(
     default_assignee: str | None = None,
     emoji: str | None = None,
 ) -> dict[str, Any]:
-    """Update the provided fields of a project; omitted fields are left unchanged."""
+    """Update the provided fields of a project; omitted fields are left unchanged.
+
+    Args:
+        project_id: Project UUID.
+        name: New project name.
+        description: New plain-text description.
+        project_lead: Member UUID to set as project lead.
+        default_assignee: Member UUID assigned by default.
+        emoji: Emoji shown as the project icon.
+    """
     client = get_client()
     return await _call(
         client.update_project(
@@ -221,14 +234,26 @@ async def list_work_items(
 
 @mcp.tool
 async def get_work_item(project_id: str, work_item_id: str) -> dict[str, Any]:
-    """Fetch a work item by project UUID and work item UUID."""
+    """Fetch a work item by project UUID and work item UUID.
+
+    Args:
+        project_id: Project UUID.
+        work_item_id: Work item UUID. If you only have a human identifier such
+            as "PROJ-123", use `get_work_item_by_identifier` instead.
+    """
     client = get_client()
     return await _call(client.get_work_item(project_id, work_item_id))
 
 
 @mcp.tool
 async def get_work_item_by_identifier(identifier: str) -> dict[str, Any]:
-    """Fetch a work item by its human identifier, e.g. "PROJ-123"."""
+    """Fetch a work item by its human identifier, e.g. "PROJ-123".
+
+    Args:
+        identifier: "<PROJECT_IDENTIFIER>-<sequence_id>", for example "PROJ-123"
+            or "MOBINTEGRA-49". The project identifier is the short key shown in
+            the Plane UI, not the project name.
+    """
     client = get_client()
     return await _call(client.get_work_item_by_identifier(identifier))
 
@@ -365,7 +390,23 @@ async def update_work_item(
 ) -> dict[str, Any]:
     """Update the provided fields of a work item; omitted fields are unchanged.
 
-    `assignees` and `labels` replace the existing lists when provided.
+    `assignees` and `labels` replace the existing lists when provided, so pass
+    the complete list you want rather than a single addition.
+
+    Args:
+        project_id: Project UUID.
+        work_item_id: Work item UUID.
+        name: New title.
+        description: New plain-text description (converted to HTML for you).
+        description_html: New HTML description; takes precedence over `description`.
+        priority: One of "urgent", "high", "medium", "low", "none".
+        state: State UUID — use `list_states` to find it.
+        assignees: Member UUIDs, replacing the current assignees — use
+            `list_workspace_members`.
+        labels: Label UUIDs, replacing the current labels — use `list_labels`.
+        start_date: ISO date, e.g. "2026-01-31".
+        target_date: ISO date, e.g. "2026-02-15".
+        estimate_point: Estimate point UUID.
     """
     client = get_client()
     return await _call(
@@ -388,7 +429,15 @@ async def update_work_item(
 
 @mcp.tool
 async def delete_work_item(project_id: str, work_item_id: str) -> dict[str, Any]:
-    """Permanently delete a work item. This cannot be undone."""
+    """Permanently delete a work item. This cannot be undone.
+
+    Prefer `update_work_item` with a "Cancelled" state when you only mean to
+    close the item.
+
+    Args:
+        project_id: Project UUID.
+        work_item_id: Work item UUID.
+    """
     client = get_client()
     await _call(client.delete_work_item(project_id, work_item_id))
     return {"deleted": True, "work_item_id": work_item_id}
@@ -401,7 +450,12 @@ async def delete_work_item(project_id: str, work_item_id: str) -> dict[str, Any]
 async def list_states(project_id: str, per_page: int = 100) -> dict[str, Any]:
     """List a project's workflow states (with their UUIDs and groups).
 
-    Call this before setting the `state` of a work item.
+    Call this before setting the `state` of a work item: the API expects a
+    state UUID, not a name like "In Progress".
+
+    Args:
+        project_id: Project UUID.
+        per_page: Items per page (1-100, default 100).
     """
     client = get_client()
     data = await _call(client.list_states(project_id, per_page=per_page))
@@ -410,7 +464,15 @@ async def list_states(project_id: str, per_page: int = 100) -> dict[str, Any]:
 
 @mcp.tool
 async def list_labels(project_id: str, per_page: int = 100) -> dict[str, Any]:
-    """List a project's labels (with their UUIDs)."""
+    """List a project's labels (with their UUIDs).
+
+    Use this to resolve label names to the UUIDs expected by the `labels`
+    field of work items.
+
+    Args:
+        project_id: Project UUID.
+        per_page: Items per page (1-100, default 100).
+    """
     client = get_client()
     data = await _call(client.list_labels(project_id, per_page=per_page))
     return summarize_paginated(data)
@@ -463,7 +525,13 @@ async def list_modules(
     per_page: int = 20,
     cursor: str | None = None,
 ) -> dict[str, Any]:
-    """List a project's modules."""
+    """List a project's modules.
+
+    Args:
+        project_id: Project UUID.
+        per_page: Items per page (1-100, default 20).
+        cursor: Pagination cursor from a previous response's `next_cursor`.
+    """
     client = get_client()
     data = await _call(client.list_modules(project_id, per_page=per_page, cursor=cursor))
     return summarize_paginated(data)
@@ -476,7 +544,13 @@ async def list_modules(
 async def list_comments(
     project_id: str, work_item_id: str, per_page: int = 100
 ) -> dict[str, Any]:
-    """List the comments on a work item."""
+    """List the comments on a work item.
+
+    Args:
+        project_id: Project UUID.
+        work_item_id: Work item UUID.
+        per_page: Items per page (1-100, default 100).
+    """
     client = get_client()
     data = await _call(client.list_comments(project_id, work_item_id, per_page=per_page))
     return summarize_paginated(data)
@@ -515,7 +589,13 @@ async def update_comment(
 
 @mcp.tool
 async def delete_comment(project_id: str, work_item_id: str, comment_id: str) -> dict[str, Any]:
-    """Permanently delete a work item comment. This cannot be undone."""
+    """Permanently delete a work item comment. This cannot be undone.
+
+    Args:
+        project_id: Project UUID.
+        work_item_id: Work item UUID.
+        comment_id: Comment UUID (from `list_comments`).
+    """
     client = get_client()
     await _call(client.delete_comment(project_id, work_item_id, comment_id))
     return {"deleted": True, "comment_id": comment_id}
@@ -578,7 +658,12 @@ async def list_pages(
 
 @mcp.tool
 async def get_page(page_id: str, project_id: str | None = None) -> dict[str, Any]:
-    """Fetch a page by UUID (workspace wiki page, or a project page)."""
+    """Fetch a page by UUID (workspace wiki page, or a project page).
+
+    Args:
+        page_id: Page UUID (from `list_pages`).
+        project_id: Project UUID for a project page; omit for a workspace wiki page.
+    """
     client = get_client()
     return await _call(client.get_page(page_id, project_id=project_id))
 
@@ -634,6 +719,13 @@ async def update_page(
     """Update a page's title and/or body. At least one field is required.
 
     Note: updating a page replaces its body, so pass the full content you want.
+
+    Args:
+        page_id: Page UUID.
+        project_id: Project UUID for a project page; omit for a workspace wiki page.
+        name: New title.
+        description: New plain-text body (converted to HTML for you).
+        description_html: New HTML body; takes precedence over `description`.
     """
     if name is None and not description and not description_html:
         raise ToolError("Provide at least one of `name`, `description` or `description_html`.")
@@ -651,7 +743,12 @@ async def update_page(
 
 @mcp.tool
 async def archive_page(page_id: str, project_id: str | None = None) -> dict[str, Any]:
-    """Archive a page. Archiving is reversible via `restore_page`."""
+    """Archive a page. Archiving is reversible via `restore_page`.
+
+    Args:
+        page_id: Page UUID.
+        project_id: Project UUID for a project page; omit for a workspace wiki page.
+    """
     client = get_client()
     await _call(client.archive_page(page_id, project_id=project_id))
     return {"archived": True, "page_id": page_id}
@@ -659,7 +756,12 @@ async def archive_page(page_id: str, project_id: str | None = None) -> dict[str,
 
 @mcp.tool
 async def restore_page(page_id: str, project_id: str | None = None) -> dict[str, Any]:
-    """Restore a previously archived page."""
+    """Restore a previously archived page.
+
+    Args:
+        page_id: Page UUID.
+        project_id: Project UUID for a project page; omit for a workspace wiki page.
+    """
     client = get_client()
     await _call(client.restore_page(page_id, project_id=project_id))
     return {"restored": True, "page_id": page_id}
@@ -671,6 +773,10 @@ async def delete_page(page_id: str, project_id: str | None = None) -> dict[str, 
 
     Plane rejects deleting a page that is still active, so call `archive_page`
     before this. This cannot be undone.
+
+    Args:
+        page_id: Page UUID.
+        project_id: Project UUID for a project page; omit for a workspace wiki page.
     """
     client = get_client()
     await _call(client.delete_page(page_id, project_id=project_id))
