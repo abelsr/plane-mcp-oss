@@ -1,0 +1,79 @@
+name: Bug report
+description: Report something that is broken or behaves unexpectedly
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug! Please fill in as much as you
+        can — it makes fixing much faster.
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true
+        - label: I am running the latest commit on `main`.
+          required: false
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+      description: Output of `uv run plane-mcp --show-config`, or the commit SHA.
+    validations:
+      required: true
+  - type: dropdown
+    id: plane-edition
+    attributes:
+      label: Plane edition
+      description: "`GET /api/instances/` reports this under `instance.edition`."
+      options:
+        - Plane Cloud
+        - Community Edition (self-hosted)
+        - Enterprise (self-hosted)
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: plane-version
+    attributes:
+      label: Plane version
+      description: "`instance.current_version` from `GET /api/instances/`."
+    validations:
+      required: false
+  - type: input
+    id: transport
+    attributes:
+      label: Transport & client
+      placeholder: "stdio via Claude Desktop / http via Cursor"
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Include the tool name, arguments, and the full error message.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: Redact tokens before pasting.
+      render: shell
+    validations:
+      required: false

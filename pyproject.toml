@@ -4,11 +4,34 @@ version = "0.1.0"
 description = "MCP server that exposes the Plane project management API to AI clients, built with FastMCP."
 readme = "README.md"
 requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Abel Santillan Rodriguez", email = "abelsantillanrdz@gmail.com" }]
+keywords = ["mcp", "model-context-protocol", "plane", "fastmcp", "project-management", "ai-agents"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
 dependencies = [
     "fastmcp>=2.0",
     "httpx>=0.27",
     "python-dotenv>=1.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/abelsr/plane-mcp"
+Repository = "https://github.com/abelsr/plane-mcp"
+Issues = "https://github.com/abelsr/plane-mcp/issues"
+Changelog = "https://github.com/abelsr/plane-mcp/blob/main/CHANGELOG.md"
+Security = "https://github.com/abelsr/plane-mcp/security/policy"
 
 [project.scripts]
 plane-mcp = "plane_mcp.server:main"

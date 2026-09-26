@@ -1,5 +1,11 @@
 # Plane MCP Server
 
+[![CI](https://github.com/abelsr/plane-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/abelsr/plane-mcp/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
+[![Built with FastMCP](https://img.shields.io/badge/built%20with-FastMCP-blueviolet.svg)](https://gofastmcp.com)
+[![MCP](https://img.shields.io/badge/protocol-MCP-6f42c1.svg)](https://modelcontextprotocol.io)
+
 An [MCP](https://modelcontextprotocol.io) server that exposes the
 [Plane](https://plane.so) REST API to AI clients (Claude, Cursor, VS Code,
 Codex, …). Built with [FastMCP](https://gofastmcp.com).
@@ -200,6 +206,19 @@ async def list_pages(project_id: str) -> dict[str, Any]:
     return summarize_paginated(data)
 ```
 
+## Contributing
+
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for the
+development setup, how to add a tool, and commit/PR guidelines. This project
+follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Security
+
+Please report vulnerabilities privately — see [SECURITY.md](SECURITY.md). Never
+commit real credentials; `.env` is git-ignored.
+
 ## License
 
-MIT
+Released under the [MIT License](LICENSE). © 2026 Abel Santillan Rodriguez.
+
+See [CHANGELOG.md](CHANGELOG.md) for release history.
